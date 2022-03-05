@@ -19,10 +19,6 @@ selected_options: list[tuple[str, int]] = \
 
 for option_with_index in selected_options:
     option = option_with_index[0]
-    pia = piawg()
-
-    # Generate public and private key pair
-    pia.generate_keys()
 
     pia.set_region(option)
     print("Selected '{}'".format(option))
