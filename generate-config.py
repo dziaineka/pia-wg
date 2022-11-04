@@ -1,6 +1,6 @@
+from time import sleep
 from piawg import piawg
 from pick import pick
-from datetime import datetime
 from credentials import get_credentials
 
 username, password = get_credentials()
@@ -21,9 +21,8 @@ for option_with_index in selected_options:
     option = option_with_index[0]
 
     pia.set_region(option)
-    print("Selected '{}'".format(option))
-
     pia.get_token(username, password)
+    print("Selected '{}'".format(option))
 
     # Add key
     status, response = pia.addkey()
@@ -34,10 +33,10 @@ for option_with_index in selected_options:
         print(response)
 
     # Build config
-    timestamp = int(datetime.now().timestamp())
     location = pia.region.replace(' ', '-')
-    config_file = 'PIA-{}-{}.conf'.format(location, timestamp)
+    config_file = 'PIA-{}.conf'.format(location)
     print("Saving configuration file {}".format(config_file))
+
     with open(config_file, 'w') as file:
         file.write('[Interface]\n')
         file.write('Address = {}\n'.format(pia.connection['peer_ip']))
@@ -48,3 +47,5 @@ for option_with_index in selected_options:
         file.write('Endpoint = {}:1337\n'.format(pia.connection['server_ip']))
         file.write('AllowedIPs = 0.0.0.0/0\n')
         file.write('PersistentKeepalive = 25\n')
+
+    sleep(3)
